@@ -3,13 +3,33 @@
 
 Для просмотра конкретного домашнего задания необходимо переключиться на соответствующую ветку
 
-# Домашнее задание к уроку "Основы работы с Docker"
+# Домашнее задание к уроку " Базовые сущности Кubernetes: Pod, ReplicaSet, Deployment"
 
 https://hub.docker.com/r/rignatev/otushomework
 
-Более качественная работа со слоями описана тут
-https://blog.nimbleways.com/docker-build-caching-for-dotnet-applications-done-right-with-dotnet-subset/
-и тут
-https://andrewlock.net/optimising-asp-net-core-apps-in-docker-avoiding-manually-copying-csproj-files-part-2/
+Перейти в папку проекта и выполнить
+```shell
+kubectl apply -f .\k8s
 
-В данном решении использовался простой способ, без использования слоя восстановления пакетов по файлам проектов.
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx/
+helm repo list
+helm repo update
+helm install nginx ingress-nginx/ingress-nginx -n ingress-nginx -f .\k8s\helm\ingress-nginx.yaml
+
+kubectl get namespaces --show-labels
+kubectl get service otushomework -n otus
+kubectl get ingress -n otus
+kubectl describe ingress otushomework -n otus
+```
+
+Получить IP адрес minikube
+```shell
+minikube ip
+```
+
+Добавить IP адрес minikube в `etc\hosts`
+```
+172.31.47.178 arch.homework
+```
+
+Открыть в браузере http://arch.homework/health или http://arch.homework/otusapp/aeugene/health
